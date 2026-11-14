@@ -1,0 +1,48 @@
+{
+  "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "revealToken": "kC6AToCf8F6gx8iQ7QzWcgpmkZrZLO-Gmxx2KapLJR4",
+  "revealHash": "23325f7a5df262a621976f59cce123f02d20c64308e0b306f5729d1820e44086",
+  "valid": {
+    "blob": "AQABAgMEBQYHCAkKCz0sxUgN5KKfjKLePAHpKWIyXcLSBh+IE5k5ww0R+VE2QzaWth+864HPogvf3ehPplnUGlOUV77EoKev7yHQyVfxg3hycjhbUo7CKA==",
+    "meta": {
+      "kind": "file",
+      "name": "id_ed25519"
+    },
+    "content": "-----BEGIN KEY-----\n"
+  },
+  "valid2": {
+    "secret": "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_AQI",
+    "revealToken": "Naa2KvwdAiuKsrbQSLoHhRUFeS5YKxwBZocFTkcKuEg",
+    "revealHash": "730953343b3682b437f43afea6b9caaf628597c995480295c81fd9a262ad0a94",
+    "blob": "AQABAgMEBQYHCAkKC3NH2NzYNz7/txWoia4KPfF3QHOYW7RH+6RNSHrXOoVSZ/T6SHh5rS+E",
+    "content": "second"
+  },
+  "invalid": {
+    "plaintext shorter than the length prefix": "AQABAgMEBQYHCAkKCz0s7H+orcTcSUI7SKW83txkRg==",
+    "meta length beyond the plaintext": "AQABAgMEBQYHCAkKCz0sxQ8N5KKfjKLePAH7JXYjXZOOvPW7887BSCJnVxFk9GqR",
+    "meta length 0xFFFFFFFF": "AQABAgMEBQYHCAkKC8LTOpQN5KKfjKLePAH7JXYjXZM7V2FLvzPJxtuw8m3dYC4u",
+    "meta of length zero": "AQABAgMEBQYHCAkKCz0sxWsOj0NhObz67UDPNbtuDGhvsg==",
+    "meta over 1 KiB": "AQABAgMEBQYHCAkKCz0swQ4N5KKfjKLePAHpKWIyXcLSBh+IE5k5wwobyFo8H23N6Ujw+MKM4Uic8cNmgXmaP3ijFP2H4+TLY558Z0WxXozvXU7cWrFUZiVJb02Swl1PdakhKyWXDxoMhRflKrb/BNHD7NPcsdhqe1ymZ16kIoUj2f051wqFFKfGZ7wpKdt8J5+GzZqK+z1wouKl25G/tERYGGjuKrn+4NElzkJRFweC6cvJqdYwLi+mnl2iEUfJgVOvkVgxpZ3LWq2MT/JyCbCbL3lFJObHxDAc1w+hq2bECUHU9ThUAk46fKkxzJQc3IicSvkExOgQ/lEDALq0KmEOhtgnMALrfT813VVMUrV2k/xC72GKv4eljY2sRr7XZR8O8uNaaiopZOBnObPiK0CNdnAN8YLwIToMxhfuOSJ11kzUYMtueVGvFanL6WygwAM01UVmTRdoHdm1rSQsklKjl1+Rz1+s/1BshcNABu687LHR73+FvOmEujmKSt2Qnt87ut1skda+2QHf2OZ5ngFagLbQpYEZnPj8FIO4Qvdu6Pvm1w70UPx2FBdZVrOnne/h2sc2MzzuqK4nkuBEltdL/PwKMZqAmU0b7VixAiKP9nlKJzfjBb4jdiqv2u6KzjH/iSka3ljotBed9kIQNqIkR4XdBT68KMw2NLAvW6YQFGjFKBLrdhlfMYsgGmhPzcOZ9JZXMr9a4CJJgGWNrp2ZRDzxc0wA/I6LmOpgkbMrsf8zALXAR8yqYzLGoUrQeDU1DV6gcpkW9gcqRn+dn6qjjEAVTqyTnmWCRc/KSjhhvzg65xtljbxn/ZHZrll+6S2WTrHOGcGJgdZpsP43oBmthb3hfI3Ts1o7RXBgY7TeDkAbg9CjU2AvP1jRQsI43lHj7bMz85e/IV6eKB7fgqdPZ4iZrsh4FG/UGhq7z2I05jRsuBJk/8zmVzJ7T6i3nMbcEXQ11Ybt8afrE7ltSaETVYm/aYDDJFD+O0aDq+ppn9qRtsX6x07rEFTU6Jj8mL/wl37OLdqzk3w3DzOjzXP+JXbvj+1VQfAbYEPuhH29ZBst1bNZKSgEGXl1ZWVM3hdlNv5ASAw8rfoiLcWuo0j/OV+6UDUhN1gpne5HlcE3Hw8f+ESyHhUGDvEyePfCX8NZHfBTRggB3ho6WCxFfO5/ypLa9krPoBXo9E9GPdJHhvT9AC/PSF24M1Y4T99H8U8E0j/PXjJy0hH2SxWu2AR110WqZKSeO/5bUnYhiunAO/FKUlxwTCQ66WHpsE4Z/gwKnjuvhuJ5tws7NxBMMwye226iWH2eevFTvBbKQ71W5Mwvf6uN3xUDvEHEiz47JYqEGRjbiDojHzApEVYY2es768KlVhE/vk/XR6W8uhc5KbXcPP1uxTEROFDE0IzMfvbvNWDFQXKWznuhm+nKkZjJKh6LvPYqiM2ybtfmfHaz5WBOYlLGIDVyN3Vik+KVi2sbe6f/LlY7dY/4OA1gA4KBnicI58mS9yba/LRlft6QdMJjdF4g5wSU/DtYHIjFZx4d554+2A==",
+    "invalid UTF-8 inside a JSON string": "AQABAgMEBQYHCAkKCz0sxXcN5KKfjKLePAHpKWIyXcLSBh+IE5k5wwWKxBYvCWF6IWKIydT3Llry2CjXTLo=",
+    "meta is null": "AQABAgMEBQYHCAkKCz0sxW8Ys6Wams6166B9viOArf8X2r9I3gU=",
+    "__proto__ key": "AQABAgMEBQYHCAkKCz0sxXUN5KKfjKLePAH7JXYjXcLSNyGVBNR3jjsqhA4pDH7bf93kLFrAIMfM+x9ztgqALA==",
+    "different AAD": "AQABAgMEBQYHCAkKCz0sxWQN5KKfjKLePAH7JXYjXZOIr7yIhMdelg4B1Y+rdCLxeQ==",
+    "empty file name": "AQABAgMEBQYHCAkKCz0sxXIN5KKfjKLePAHpKWIyXcLSBh+IE5k5w0YI3nBGmVW0KVXMdndGUN0Xg+M=",
+    "lone surrogate in name": "AQABAgMEBQYHCAkKCz0sxUoN5KKfjKLePAHpKWIyXcLSBh+IE5k5wwUp01BqQTPBpVvmerX8XYg/NcNDw7TrLTkNPQ==",
+    "NUL in name": "AQABAgMEBQYHCAkKCz0sxUoN5KKfjKLePAHpKWIyXcLSBh+IE5k5wwUp0wRiQTPBpVvmYtY9WwXICvfFq0QwG/2wTg==",
+    "C1 control in name": "AQABAgMEBQYHCAkKCz0sxUoN5KKfjKLePAHpKWIyXcLSBh+IE5k5wwUp0wRiSTbBpVvmfG6cW9dfatYm2G440eMt5Q==",
+    "bidi override in name": "AQABAgMEBQYHCAkKCz0sxU0N5KKfjKLePAHpKWIyXcLSBh+IE5k5wxAN0hoOBDGTtUP77snA8l64Dg+PMPXgX/qxOccZd20n",
+    "path in name": "AQABAgMEBQYHCAkKCz0sxXYN5KKfjKLePAHpKWIyXcLSBh+IE5k5w0pbiUxwDHvC05eKQ6GmY1xluYYSkwkh",
+    "backslash in name": "AQABAgMEBQYHCAkKCz0sxXYN5KKfjKLePAHpKWIyXcLSBh+IE5k5wwUp+lZwDHvL7Ci8/G3ZzU5ic8OWB9qM",
+    "name is .": "AQABAgMEBQYHCAkKCz0sxXEN5KKfjKLePAHpKWIyXcLSBh+IE5k5w0pX20zeG3RF8rO87zcS5LFesfuk",
+    "name is ..": "AQABAgMEBQYHCAkKCz0sxXAN5KKfjKLePAHpKWIyXcLSBh+IE5k5w0pbhEkqtkbDr7N3HRgMlHsoyAFKBg==",
+    "meta not JSON": "AQABAgMEBQYHCAkKCz0sxWMYqb3WiLWTaFu0MPVYbGi3PdVYm92UF0dp",
+    "meta is an array": "AQABAgMEBQYHCAkKCz0sxWMt5L2TmrLeW1uWvq/Ve+PVLuDHw5uX0wTQ",
+    "unknown kind": "AQABAgMEBQYHCAkKCz0sxWQN5KKfjKLePAHnNGM7XZPMGx2XH8t339jzcJsHYPIBPocG86ErN8g=",
+    "file without a name": "AQABAgMEBQYHCAkKCz0sxWQN5KKfjKLePAHpKWIyXZOIzpPrjyXlzfU9XWoeki0sug==",
+    "file name not a string": "AQABAgMEBQYHCAkKCz0sxXMN5KKfjKLePAHpKWIyXcLSBh+IE5k51BkNtZa/h7IcKWFGqIVtFMMCng==",
+    "text with a name": "AQABAgMEBQYHCAkKCz0sxXEN5KKfjKLePAH7JXYjXcLSBh+IE5k5wxxX20x7Fq6zKsBj7O7k7Xa74aCE",
+    "unknown key": "AQABAgMEBQYHCAkKCz0sxUkN5KKfjKLePAH7JXYjXcLSHAeVE5k5wxAQ3kB9GXfO6wTj7sNVZ3zUfKZDXuSp0bj9nL8=",
+    "blob shorter than a header": "AQAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+}

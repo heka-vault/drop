@@ -5,7 +5,9 @@ Hand a secret to a person with a link. An agent takes a value (usually from
 limited number of times. You paste the URL to a collaborator; they sign in, click Reveal, and the
 secret is gone from the server.
 
-**Status:** design. No code yet.
+**Status:** first slice built: plain drops (no sign-in) from the CLI to the browser. Sign-in,
+people, Discord, Vault reads and reverse drops are next. Design:
+[ADR 0001](docs/adr/0001-slice-1-plain-drops.md).
 
 ## Decided so far
 
@@ -14,7 +16,7 @@ secret is gone from the server.
 - **One open and 24 hours by default.** A sender can raise either per drop, up to 10 opens and 7
   days. Ciphertext is deleted on the last open or at expiry.
 - **Two kinds of link, chosen per drop.** A plain drop opens for anyone holding the link, with no
-  sign-in. A drop marked *sign-in required* makes the recipient sign in with GitHub or Google first;
+  sign-in. A drop marked _sign-in required_ makes the recipient sign in with GitHub or Google first;
   if they have no account yet, that sign-in creates one. Nobody has to sign up before a link can be
   sent to them.
 - **Sign-in is Cloudflare Access,** applied only to the sign-in-required paths. The app trusts the
@@ -26,8 +28,8 @@ secret is gone from the server.
 - **A `drop` CLI does the sending.** It reads the value from Heka Vault with the host's own project
   key (or from stdin or a file), encrypts locally, uploads, and prints only the URL. The value stays
   out of the agent's context, and the Drop server holds no vault credentials.
-- **Any API token can drop any value it is handed.** Drop does not check which vault project a
-  value came from; what a host may read is the vault's concern.
+- **Any API token can drop any value it is handed.** Drop does not check which vault project a value
+  came from; what a host may read is the vault's concern.
 - **Payloads:** text, JSON, and files up to about 1 MB.
 
 ## First version also includes
@@ -39,8 +41,8 @@ secret is gone from the server.
 
 ## People
 
-Signing in creates a person: the verified GitHub or Google identity, plus metadata such as a
-display name and a Discord user id. People exist so that:
+Signing in creates a person: the verified GitHub or Google identity, plus metadata such as a display
+name and a Discord user id. People exist so that:
 
 - a drop or a reverse-drop request can be addressed to someone by name,
 - agents can ping that person in Discord when something is waiting for them,
@@ -71,16 +73,96 @@ do that, and it is the one place where an outsider writes into the system, so it
   stores ciphertext it cannot read.
 - Size is capped, and the submission is data only: it is never rendered, parsed, or executed by the
   server or the CLI.
-- The requesting agent collects it with the CLI and writes it straight into the vault key named
-  when the request was made. The value does not enter the agent's context, and a submission cannot
-  choose where it lands.
+- The requesting agent collects it with the CLI and writes it straight into the vault key named when
+  the request was made. The value does not enter the agent's context, and a submission cannot choose
+  where it lands.
 - Every request, submission, and collection is audited and announced in Discord.
 
-## Deployment
+## Using it
 
-One container behind a Cloudflare tunnel, with Cloudflare Access on the redeem pages. The API that
-creates drops is not exposed through the tunnel. Because the server holds only ciphertext, it can
-live on a less trusted machine than the vault.
+Install the CLI once on each sending host (Deno 2):
+
+```sh
+git clone https://github.com/heka-vault/drop && cd drop
+deno install -g -n drop --allow-net --allow-read --allow-env --config deno.json src/cli.ts
+```
+
+Point it at a Drop server and send:
+
+```sh
+export DROP_API_URL=https://drop-api.example.com   # the private API
+export DROP_PUBLIC_URL=https://drop.example.com    # where recipients open links
+export DROP_TOKEN=hdt_...                          # from the server operator
+# export DENO_CERT=/path/to/ca.pem                 # only if the API uses a private CA
+
+printf '%s' "$VALUE" | drop send --label "staging db password"
+drop send --file ./id_ed25519 --opens 2 --ttl 3600
+```
+
+`drop send` prints only the link. Both URLs must be `https://` unless they point at loopback.
+`DENO_CERT` adds a CA to the ones Deno already trusts, so a LAN-only API can use a private CA.
+
+The private API, for agents that need more than the CLI:
+
+| Method and path            | What it does                                                                                                                                                                |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /api/v1/drops`       | Body: the encrypted blob. Headers: `x-drop-reveal-hash`, optional `x-drop-label`, `x-drop-max-opens` (1–10), `x-drop-ttl` (seconds, ≤ 7 days). Returns `{ id, expiresAt }`. |
+| `GET /api/v1/drops`        | This token's pending drops: id, label, opens left, expiry.                                                                                                                  |
+| `DELETE /api/v1/drops/:id` | Revoke one of this token's drops.                                                                                                                                           |
+| `GET /api/v1/health`       | No token needed.                                                                                                                                                            |
+
+## Development
+
+Deno 2. `deno task test` runs the tests, `deno task check` runs format, lint and type checks, and
+`deno task dev` serves the public app on 8090 and the API on 8091, both on loopback.
+`test/vectors.py` regenerates the cross-implementation test vectors in `test/vectors.json`.
+
+## Hosting your own
+
+One container ([Dockerfile](Dockerfile), example [compose file](deploy/compose.yaml)) and two URLs.
+Because the server holds only ciphertext, it can live on a less trusted machine than the secrets it
+carries.
+
+1. Run the container with a data directory: `docker compose up -d --build` in `deploy/`.
+2. Put HTTPS in front of the **public** port (8090) under a public hostname: a Cloudflare Tunnel,
+   Caddy, nginx, or any reverse proxy that does not rewrite pages (see below).
+3. Make the **API** port (8091) reachable by your senders and nobody else: loopback if they run on
+   the same machine, otherwise a private network with TLS in front. A private CA is fine; senders
+   set `DENO_CERT` to it.
+4. Create a token per sender: `docker compose run --rm drop create-token --name NAME`.
+5. Senders install the CLI and set the three variables above.
+
+What a deployment must get right:
+
+- **Two ports, two audiences.** Port 8090 is the public redeem app: expose only it. Port 8091 is the
+  API: never expose it publicly. Keep it on loopback, or on a firewalled private interface behind
+  TLS if senders on other hosts call it.
+- **Nothing may rewrite or inject scripts on the public hostname.** The page that reads the key is
+  served by the server, so anything that adds JavaScript can steal keys. On Cloudflare, keep Rocket
+  Loader, Web Analytics / automatic RUM, Zaraz, email obfuscation, and HTML minification off for
+  this hostname; on any proxy, do not inject scripts or analytics. The app already sends a strict
+  CSP and `Cache-Control: no-store, no-transform`.
+- **HTTPS only** on the public hostname (the app sends HSTS).
+- **Do not log request bodies** at any proxy. Reveal bodies carry reveal tokens and responses carry
+  ciphertext. URL paths hold only drop ids; fragments never reach a server.
+- **Data:** one SQLite file (`HEKA_DROP_DB`, default `/data/drop.db`) holding ciphertext, labels,
+  token hashes and the audit log. There is no master key. Losing it only loses pending drops.
+- **Environment:** `HEKA_DROP_DB`, `HEKA_DROP_PUBLIC_HOST`/`_PORT` (default `127.0.0.1:8090`),
+  `HEKA_DROP_API_HOST`/`_PORT` (default `127.0.0.1:8091`). The image listens on `0.0.0.0` inside the
+  container; the compose file binds both ports to the host's loopback.
+- **Health:** `GET /api/v1/health` on the API port.
+- **Tokens:** `create-token` prints a token once and `revoke-token` revokes it. In Docker, run them
+  as `docker compose run --rm drop create-token --name NAME`. Do not keep tokens on the Drop host.
+- **HSTS** is sent without `includeSubDomains`; add it at the edge only if every subdomain is HTTPS.
+
+Known limits, by design: the reveal page needs a browser that sends `Sec-Fetch-Site` (all current
+ones; Safari before 16.4 is refused rather than let through). Failed reveal attempts are not
+audited, so guessing ids cannot flood the log. Deleted ciphertext is overwritten in the database at
+once and flushed from the write-ahead log by the minute-by-minute purge.
+
+Cloudflare Workers with Durable Object SQLite storage is a possible later target: storage sits
+behind a small port that both fit. It would make keeping the API private a matter of configuration
+(Access service tokens, `workers_dev = false`, `preview_urls = false`) rather than a closed port.
 
 ## License
 

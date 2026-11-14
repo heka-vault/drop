@@ -1,0 +1,35 @@
+# Example deployment. Run from this directory: docker compose up -d --build
+#
+# Two ports, two audiences:
+#   8090  public redeem app. Point the Cloudflare tunnel here, and only here.
+#   8091  private API (create/list/revoke). Never route it through the tunnel. By default it is
+#         bound to the host's loopback; if agents on other hosts need it, bind it to a private
+#         interface, firewall it, and put TLS in front (the CLI refuses plain http off loopback).
+#
+# HEKA_DROP_DATA must be a mode-700 directory owned by HEKA_DROP_UID. It holds drop.db, which
+# contains only ciphertext, labels, token hashes and the audit log. Manage API tokens with the
+# commands below. create-token prints the token once: store it on the sending host (or in the
+# vault), never in the data directory.
+#   docker compose run --rm drop create-token --name NAME
+#   docker compose run --rm drop revoke-token --name NAME
+services:
+  drop:
+    build: ..
+    container_name: heka-drop
+    restart: unless-stopped
+    user: "${HEKA_DROP_UID:-1000}:${HEKA_DROP_GID:-1000}"
+    ports:
+      - "${HEKA_DROP_PUBLIC_BIND:-127.0.0.1}:${HEKA_DROP_PUBLIC_PORT:-8090}:8090"
+      - "${HEKA_DROP_API_BIND:-127.0.0.1}:${HEKA_DROP_API_PORT:-8091}:8091"
+    volumes:
+      - "${HEKA_DROP_DATA:-./data}:/data"
+    healthcheck:
+      test: [
+        "CMD",
+        "deno",
+        "eval",
+        "const r = await fetch('http://127.0.0.1:8091/api/v1/health'); if (!r.ok) Deno.exit(1)",
+      ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
