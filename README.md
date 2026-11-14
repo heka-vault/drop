@@ -31,11 +31,38 @@ secret is gone from the server.
 
 - A Discord message when a drop is opened: who, when, and its label, never the value.
 - Listing pending drops and revoking one before it is opened.
-- Reverse drops: a request link a collaborator uses to send a secret back, encrypted to the
-  requester.
+- Agents can post the link to Discord for the recipient themselves, as well as hand it back to the
+  operator.
+- A stored people list (name, GitHub login or email) so a drop can be addressed by name.
+
+## Reverse drops
+
+A collaborator sometimes has to send a secret back. A reverse drop is a request link that lets them
+do that, and it is the one place where an outsider writes into the system, so it is narrow:
+
+- Only a holder of an API token can create a request. There is no open submit page; without a live
+  request link there is nothing to post to.
+- A request is addressed to one stored person, who must sign in as that identity. It accepts one
+  submission, then closes, and it expires like any drop.
+- The recipient's browser encrypts to a public key belonging to the host that asked. The server
+  stores ciphertext it cannot read.
+- Size is capped, and the submission is data only: it is never rendered, parsed, or executed by the
+  server or the CLI.
+- The requesting agent collects it with the CLI and writes it straight into the vault key named
+  when the request was made. The value does not enter the agent's context, and a submission cannot
+  choose where it lands.
+- Every request, submission, and collection is audited and announced in Discord.
+
+## Deployment
+
+One container behind a Cloudflare tunnel, with Cloudflare Access on the redeem pages. The API that
+creates drops is not exposed through the tunnel. Because the server holds only ciphertext, it can
+live on a less trusted machine than the vault.
 
 ## Open
 
-- Where it runs and under which hostname.
-- How a reverse drop is encrypted to the requester, and how it reaches the vault.
-- License, and when the repo goes public.
+- Whether an API token is limited to drops for its own vault project.
+
+## License
+
+[MIT](LICENSE)
