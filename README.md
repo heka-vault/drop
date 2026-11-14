@@ -44,9 +44,17 @@ display name and a Discord user id. People exist so that:
 - agents can ping that person in Discord when something is waiting for them,
 - the audit log names who opened or submitted what.
 
-A person can also be created ahead of time from the Discord side (name and Discord user id only).
-The first sign-in through a link addressed to them attaches the GitHub or Google identity to that
-record, and that first attachment is announced in Discord so a wrong account is noticed.
+A Discord user id gets onto a person in one of two ways:
+
+- **Created from Discord first.** An operator or agent creates the person with a name and Discord
+  user id. The id is trusted from the start. The first sign-in through a link addressed to them
+  attaches the GitHub or Google identity, and that attachment is announced in Discord so a wrong
+  account is noticed.
+- **Entered at sign-up.** The person types their own Discord id. It is stored as unverified until
+  they confirm it by entering a short code sent to that account in a Discord DM.
+
+Agents can only ping, or address a reverse-drop request to, a person whose Discord id is trusted or
+confirmed.
 
 ## Reverse drops
 
@@ -74,7 +82,6 @@ live on a less trusted machine than the vault.
 
 ## Open
 
-- How a Discord user id is confirmed to belong to the person who signed in.
 - Whether an API token is limited to drops for its own vault project.
 
 ## License
