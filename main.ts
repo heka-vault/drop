@@ -17,6 +17,8 @@ const config = {
   apiPort: port("HEKA_DROP_API_PORT", "8091"),
   publicHost: env("HEKA_DROP_PUBLIC_HOST", "127.0.0.1"),
   publicPort: port("HEKA_DROP_PUBLIC_PORT", "8090"),
+  sourceUrl: Deno.env.get("HEKA_DROP_SOURCE_URL") || undefined,
+  revision: Deno.env.get("HEKA_DROP_REVISION") || undefined,
 };
 
 const PURGE_INTERVAL_MS = 60_000;
@@ -40,7 +42,13 @@ if (import.meta.main) {
   if (command === "serve") {
     const store = openStore();
     Deno.serve({ hostname: config.apiHost, port: config.apiPort }, apiApp(store).fetch);
-    Deno.serve({ hostname: config.publicHost, port: config.publicPort }, publicApp(store).fetch);
+    Deno.serve(
+      { hostname: config.publicHost, port: config.publicPort },
+      publicApp(store, {
+        sourceUrl: config.sourceUrl,
+        revision: config.revision,
+      }).fetch,
+    );
     setInterval(() => store.purgeExpired(), PURGE_INTERVAL_MS);
   } else if (command === "create-token" && args.name) {
     const line = `DROP_TOKEN=${openStore().createToken(args.name)}`;

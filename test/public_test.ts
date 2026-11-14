@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals, assertStringIncludes, assertThrows } from "@std/assert";
 import { open, revealToken, seal } from "../src/envelope.js";
 import { publicApp } from "../src/public.ts";
 import { openSqlite } from "../src/sqlite.ts";
@@ -189,4 +189,21 @@ Deno.test("public: oversized and chunked reveal bodies get the same 404", async 
     assertEquals(await res.text(), await baseline.clone().text());
   }
   assertEquals((await reveal(app, id, await revealToken(sealed.secret))).status, 200);
+});
+
+Deno.test("public: the redeem page links to the source of the version it runs", async () => {
+  const { store } = await setup();
+  const link = async (options?: Parameters<typeof publicApp>[1]) => {
+    const html = await (await publicApp(store, options).request("/d/x")).text();
+    return html.match(/<a [^>]*id="source"[^>]*>/)?.[0] ?? "";
+  };
+  const pinned = await link({ sourceUrl: "https://git.example.com/me/drop", revision: "abc1234" });
+  assertStringIncludes(pinned, 'href="https://git.example.com/me/drop/tree/abc1234"');
+  assertStringIncludes(pinned, 'target="_blank"');
+  assertStringIncludes(pinned, 'rel="noopener noreferrer"');
+  assertStringIncludes(await link(), 'href="https://github.com/heka-vault/drop"');
+  assertThrows(() => publicApp(store, { sourceUrl: "http://git.example.com/drop" }));
+  assertThrows(() =>
+    publicApp(store, { sourceUrl: "https://git.example.com/drop", revision: 'main"><x' })
+  );
 });

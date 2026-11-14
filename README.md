@@ -126,6 +126,21 @@ Deno 2. `deno task test` runs the tests, `deno task check` runs format, lint and
 `deno task dev` serves the public app on 8090 and the API on 8091, both on loopback.
 `test/vectors.py` regenerates the cross-implementation test vectors in `test/vectors.json`.
 
+## Checking what a server runs
+
+The redeem page links to its source code, pinned to the commit the server says it runs. The page's
+JavaScript comes from that server, so anyone can compare what it serves with the published files:
+
+```sh
+rev=abc1234   # the version shown at the bottom of the redeem page
+for f in envelope.js redeem.js; do
+  diff <(curl -s "https://drop.example.com/assets/$f") \
+    <(curl -s "https://raw.githubusercontent.com/heka-vault/drop/$rev/src/$f") && echo "$f matches"
+done
+```
+
+This shows what the server sends you right now; it cannot prove what it sends anyone else.
+
 ## Hosting your own
 
 One container ([Dockerfile](Dockerfile), example [compose file](deploy/compose.yaml)) and two URLs.
@@ -156,6 +171,8 @@ What a deployment must get right:
   ciphertext. URL paths hold only drop ids; fragments never reach a server.
 - **Data:** one SQLite file (`HEKA_DROP_DB`, default `/data/drop.db`) holding ciphertext, labels,
   token hashes and the audit log. There is no master key. Losing it only loses pending drops.
+- **Source link:** set `HEKA_DROP_REVISION` to the deployed commit so the redeem page links to that
+  exact code, and `HEKA_DROP_SOURCE_URL` if you run a fork (default: this repository).
 - **Environment:** `HEKA_DROP_DB`, `HEKA_DROP_PUBLIC_HOST`/`_PORT` (default `127.0.0.1:8090`),
   `HEKA_DROP_API_HOST`/`_PORT` (default `127.0.0.1:8091`). The image listens on `0.0.0.0` inside the
   container; the compose file binds both ports to the host's loopback.
