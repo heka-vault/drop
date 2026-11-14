@@ -29,8 +29,29 @@ function isSameOriginReveal(headers: (name: string) => string | undefined): bool
   return headers("origin") === undefined;
 }
 
+export const DEFAULT_SOURCE_URL = "https://github.com/heka-vault/drop";
+
+/**
+ * Where the code behind this page lives, so a recipient can read it: the repository, pinned to the
+ * deployed commit when one is known. Only https URLs and hex commit ids are accepted, so nothing
+ * from configuration can break out of the attribute it is placed in.
+ */
+function sourceLink(sourceUrl: string, revision?: string): string {
+  const url = URL.parse(sourceUrl);
+  if (url?.protocol !== "https:" || url.search || url.hash) {
+    throw new Error("source URL must be a plain https:// URL");
+  }
+  if (revision !== undefined && !/^[0-9a-f]{7,40}$/.test(revision)) {
+    throw new Error("revision must be a git commit id");
+  }
+  const base = url.href.replace(/\/+$/, "");
+  return revision ? `${base}/tree/${revision}` : base;
+}
+
 /** The same page for every drop id: it never touches the store, so it reveals nothing. */
-const REDEEM_PAGE = `<!doctype html>
+function redeemPage(source: string, revision?: string): string {
+  const version = revision ? ` (version ${revision.slice(0, 7)})` : "";
+  return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -47,9 +68,14 @@ const REDEEM_PAGE = `<!doctype html>
 <pre id="secret" hidden></pre>
 <p><a id="download" hidden>Download file</a></p>
 </main>
+<footer>
+<p>Decrypted only in your browser. This page is open source:
+<a id="source" href="${source}" target="_blank" rel="noopener noreferrer">read the code</a>${version}.</p>
+</footer>
 </body>
 </html>
 `;
+}
 
 export type Assets = Record<string, { type: string; body: string }>;
 
@@ -68,7 +94,17 @@ export function readAssets(): Assets {
  * The internet-facing app: the redeem page, its assets, and the reveal endpoint. Routes only
  * translate HTTP; every rule lives in DropStore.
  */
-export function publicApp(store: DropStore, assets: Assets = readAssets()): Hono {
+export function publicApp(
+  store: DropStore,
+  { assets = readAssets(), sourceUrl = DEFAULT_SOURCE_URL, revision }: {
+    assets?: Assets;
+    /** Repository the page links to, for recipients who want to read the code. */
+    sourceUrl?: string;
+    /** Deployed commit id; pins the link to the exact code that is running. */
+    revision?: string;
+  } = {},
+): Hono {
+  const page = redeemPage(sourceLink(sourceUrl, revision), revision);
   const app = new Hono();
   /** Every failure looks the same: unknown, expired, used up, revoked, wrong token, malformed. */
   const notFound = () => new Response("not found", { status: 404 });
@@ -78,7 +114,7 @@ export function publicApp(store: DropStore, assets: Assets = readAssets()): Hono
     for (const [name, value] of Object.entries(SECURITY_HEADERS)) c.header(name, value);
   });
 
-  app.get("/d/:id", (c) => c.html(REDEEM_PAGE));
+  app.get("/d/:id", (c) => c.html(page));
 
   app.get("/assets/:name", (c) => {
     const asset = Object.hasOwn(assets, c.req.param("name")) ? assets[c.req.param("name")] : null;

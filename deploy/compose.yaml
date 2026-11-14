@@ -23,6 +23,10 @@ services:
       - "${HEKA_DROP_API_BIND:-127.0.0.1}:${HEKA_DROP_API_PORT:-8091}:8091"
     volumes:
       - "${HEKA_DROP_DATA:-./data}:/data"
+    environment:
+      # The redeem page links to the code it runs: set these when you deploy a fork or a commit.
+      HEKA_DROP_SOURCE_URL: "${HEKA_DROP_SOURCE_URL:-}"
+      HEKA_DROP_REVISION: "${HEKA_DROP_REVISION:-}"
     healthcheck:
       test: [
         "CMD",

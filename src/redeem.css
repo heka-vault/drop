@@ -67,3 +67,11 @@ pre {
 a {
   color: var(--accent);
 }
+
+footer {
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
