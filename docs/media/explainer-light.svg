@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title description">
+    <title id="title">Heka Drop: a secret, one link, one open</title>
+    <desc id="description">The CLI encrypts locally and uploads only ciphertext. A link carries its key in the #fragment, which browsers never send to a server. The recipient clicks Reveal and decrypts in their browser. The server deletes its ciphertext after the last allowed open or expiry. Defaults: 1 open and 24 hours. The server supplies the browser's JavaScript.</desc>
+    <style>:root{--bg:#edebe4;--paper:#f6f5f0;--ink:#101a33;--muted:#424b63;--line:#a5aabc;--lapis:#13286e;--ochre:#6a4300;--gold:#a66a00;--teal:#075b52;--flame:#c77a12;--core:#f5c96a;--top:#e0e2e7;--left:#c8cdd8;--right:#b4bdcd;}
+text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
+    .heading{font-size:44px;font-weight:700;letter-spacing:-1.2px}
+    .sub{font-size:23px;fill:var(--muted)} .small{font-size:18px;fill:var(--muted)}
+    .label{font-size:24px;font-weight:600} .mono{font-family:ui-monospace,Consolas,monospace}
+    .gold{fill:var(--ochre)} .success{fill:var(--teal)} .on-water{fill:#ecebe4}
+    .fine{fill:none;stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}
+    .route{fill:none;stroke:var(--lapis);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+    .key-route{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+    .stage,.link,.routes,.key-tag,.plain,.sealed,.delivered,.burn,.revealed,.deleted-status,.await-status,.static-title,.never-sent{opacity:0}
+    .stage,.key-tag,.sealed,.delivered,.burn,.cursor,.reveal-button{transform-box:view-box}
+    .beat-0 {animation:beat-0 24s linear infinite;}
+@keyframes beat-0 {0.00000% {opacity:1} 15.66667% {opacity:1} 16.66667% {opacity:0} 99.00000% {opacity:0} 100.00000% {opacity:1}}
+.beat-1 {animation:beat-1 24s linear infinite;}
+@keyframes beat-1 {0.00000% {opacity:0} 16.66667% {opacity:0} 17.66667% {opacity:1} 32.33333% {opacity:1} 33.33333% {opacity:0} 100.00000% {opacity:0}}
+.beat-2 {animation:beat-2 24s linear infinite;}
+@keyframes beat-2 {0.00000% {opacity:0} 33.33333% {opacity:0} 34.33333% {opacity:1} 49.00000% {opacity:1} 50.00000% {opacity:0} 100.00000% {opacity:0}}
+.beat-3 {animation:beat-3 24s linear infinite;}
+@keyframes beat-3 {0.00000% {opacity:0} 50.00000% {opacity:0} 51.00000% {opacity:1} 65.66667% {opacity:1} 66.66667% {opacity:0} 100.00000% {opacity:0}}
+.beat-4 {animation:beat-4 24s linear infinite;}
+@keyframes beat-4 {0.00000% {opacity:0} 66.66667% {opacity:0} 67.66667% {opacity:1} 82.33333% {opacity:1} 83.33333% {opacity:0} 100.00000% {opacity:0}}
+.beat-5 {animation:beat-5 24s linear infinite;}
+@keyframes beat-5 {0.00000% {opacity:0} 83.33333% {opacity:0} 84.33333% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.link {animation:link 24s linear infinite;}
+@keyframes link {0.00000% {opacity:0} 23.33333% {opacity:0} 24.33333% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.routes {animation:routes 24s linear infinite;}
+@keyframes routes {0.00000% {opacity:0} 33.75000% {opacity:0} 34.75000% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.never-sent {animation:never-sent 24s linear infinite;}
+@keyframes never-sent {0.00000% {opacity:0} 40.00000% {opacity:0} 41.00000% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.plain {animation:plain 24s linear infinite;}
+@keyframes plain {0.00000% {opacity:1} 8.58333% {opacity:1} 9.58333% {opacity:0} 99.00000% {opacity:0} 100.00000% {opacity:1}}
+.await-status {animation:await-status 24s linear infinite;}
+@keyframes await-status {0.00000% {opacity:0} 22.91667% {opacity:0} 23.91667% {opacity:1} 67.33333% {opacity:1} 68.33333% {opacity:0} 100.00000% {opacity:0}}
+.deleted-status {animation:deleted-status 24s linear infinite;}
+@keyframes deleted-status {0.00000% {opacity:0} 72.91667% {opacity:0} 73.91667% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.revealed {animation:revealed 24s linear infinite;}
+@keyframes revealed {0.00000% {opacity:0} 73.75000% {opacity:0} 74.75000% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.reveal-button {animation:reveal-button 24s linear infinite;}
+@keyframes reveal-button {0.00000% {opacity:0} 40.83333% {opacity:0} 41.83333% {opacity:1} 66.50000% {opacity:1} 67.50000% {opacity:0} 100.00000% {opacity:0}}
+.cursor {animation:cursor 24s linear infinite;}
+@keyframes cursor {0.00000% {opacity:0} 62.08333% {opacity:0} 63.08333% {opacity:1} 66.70833% {opacity:1} 67.70833% {opacity:0} 100.00000% {opacity:0}}
+.sealed {animation:sealed 24s cubic-bezier(0.77,0,0.175,1) infinite;}
+@keyframes sealed {0.00000% {opacity:0;transform:translate(0,0)} 8.33333% {opacity:0;transform:translate(0,0)} 9.79167% {opacity:1;transform:translate(0,0)} 17.50000% {opacity:1;transform:translate(0,0)} 22.50000% {opacity:1;transform:translate(410px,-18px)} 68.95833% {opacity:1;transform:translate(410px,-18px)} 72.08333% {opacity:0;transform:translate(410px,-24px)} 100.00000% {opacity:0;transform:translate(410px,-24px)}}
+.key-tag {animation:key-tag 24s cubic-bezier(0.77,0,0.175,1) infinite;}
+@keyframes key-tag {0.00000% {opacity:0;transform:translate(0,0)} 23.33333% {opacity:0;transform:translate(0,0)} 24.33333% {opacity:1;transform:translate(0,0)} 35.41667% {opacity:1;transform:translate(0,0)} 40.00000% {opacity:1;transform:translate(170px,72px)} 97.33333% {opacity:1;transform:translate(170px,72px)} 98.33333% {opacity:0;transform:translate(170px,72px)} 100.00000% {opacity:0;transform:translate(170px,72px)}}
+.request {animation:request 24s cubic-bezier(0.77,0,0.175,1) infinite;}
+@keyframes request {0.00000% {opacity:0;transform:translateY(0)} 35.00000% {opacity:0;transform:translateY(0)} 35.83333% {opacity:1;transform:translateY(0)} 40.00000% {opacity:1;transform:translateY(66px)} 41.25000% {opacity:0;transform:translateY(66px)} 100.00000% {opacity:0;transform:translateY(66px)}}
+.delivered {animation:delivered 24s cubic-bezier(0.77,0,0.175,1) infinite;}
+@keyframes delivered {0.00000% {opacity:0;transform:translate(0,0)} 67.08333% {opacity:0;transform:translate(0,0)} 67.91667% {opacity:1;transform:translate(0,0)} 72.29167% {opacity:1;transform:translate(410px,15px)} 74.16667% {opacity:0;transform:translate(410px,15px)} 100.00000% {opacity:0;transform:translate(410px,15px)}}
+.burn {animation:burn 24s cubic-bezier(0.23,1,0.32,1) infinite;}
+@keyframes burn {0.00000% {opacity:0;transform:translateY(0)} 69.58333% {opacity:0;transform:translateY(0)} 70.83333% {opacity:1;transform:translateY(-6px)} 74.16667% {opacity:0;transform:translateY(-35px)} 100.00000% {opacity:0;transform:translateY(-35px)}}
+.press {animation:press 24s cubic-bezier(0.23,1,0.32,1) infinite;}
+@keyframes press {0.00000% {transform:translate(0,0)} 66.00000% {transform:translate(0,0)} 66.33333% {transform:translate(0,3px)} 66.66667% {transform:translate(0,0)} 100.00000% {transform:translate(0,0)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important} .stage,.plain,.sealed,.delivered,.burn,.reveal-button,.cursor,.request,.await-status{opacity:0}
+    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status,.never-sent{opacity:1}
+    .key-tag{transform:translate(170px,72px)}}
+</style>
+    <rect width="1280" height="720" fill="var(--bg)"/>
+    
+<text x="64" y="59" class="label" text-anchor="start">Heka Drop</text>
+<text x="1216" y="59" class="small" text-anchor="end">How a plain drop works</text>
+<path d="M64 82H1216" class="fine"/>
+<g class="stage beat-0"><text x="64" y="145" class="heading" text-anchor="start">Seal it before it leaves.</text><text x="64" y="188" class="sub" text-anchor="start">drop send encrypts on the sender&#x27;s machine.</text></g>
+<g class="stage beat-1"><text x="64" y="145" class="heading" text-anchor="start">Only scrambled bytes go up.</text><text x="64" y="188" class="sub" text-anchor="start">The server stores ciphertext it cannot read.</text></g>
+<g class="stage beat-2"><text x="64" y="145" class="heading" text-anchor="start">The key takes a different route.</text><text x="64" y="188" class="sub" text-anchor="start">Browsers never send the #fragment to a server.</text></g>
+<g class="stage beat-3"><text x="64" y="145" class="heading" text-anchor="start">A preview can&#x27;t spend it.</text><text x="64" y="188" class="sub" text-anchor="start">The page waits for a person to click Reveal.</text></g>
+<g class="stage beat-4"><text x="64" y="145" class="heading" text-anchor="start">Open here. Gone there.</text><text x="64" y="188" class="sub" text-anchor="start">Your browser decrypts. The last open deletes the server copy.</text></g>
+<g class="stage beat-5"><text x="64" y="145" class="heading" text-anchor="start">One open. Then it&#x27;s gone.</text><text x="64" y="188" class="sub" text-anchor="start">Default: 1 open, 24 hours. Expiry also deletes the ciphertext.</text></g>
+<g class="static-title"><text x="64" y="145" class="heading" text-anchor="start">A secret. One link. One open.</text><text x="64" y="188" class="sub" text-anchor="start">Ciphertext is deleted on the last open or at expiry.</text></g>
+<g class="link"><rect x="255" y="248" width="770" height="66" rx="4" fill="var(--paper)" stroke="var(--line)"/>
+        <path d="M850 258V304" class="fine"/><text x="280" y="290" class="mono" text-anchor="start">https://drop.example.com/d/id</text><text x="871" y="290" class="mono gold" text-anchor="start">#fragment</text></g>
+<g class="routes"><path d="M640 316V368m-6-7 6 7 6-7" class="route"/>
+        <path d="M1008 316H1105V373m-6-7 6 7 6-7" class="key-route"/><text x="623" y="346" class="small" text-anchor="end">Request</text></g>
+<g class="never-sent"><text x="937" y="342" class="small gold" text-anchor="middle">never sent</text></g>
+<g class="request"><rect x="616" y="314" width="48" height="23" rx="3" fill="var(--paper)" stroke="var(--lapis)"/><text x="640" y="331" class="small mono" text-anchor="middle">/d/id</text></g>
+<g transform="translate(230 505)">
+    <path d="M-144 0 0-55 144 0 0 55Z" fill="var(--top)"/>
+    <path d="M-144 0 0 55V69L-144 14Z" fill="var(--left)"/>
+    <path d="M0 55 144 0V14L0 69Z" fill="var(--right)"/>
+    <path d="M-144 0 0-55 144 0 0 55Z" class="fine"/>
+    </g>
+<g transform="translate(640 505)">
+    <path d="M-144 0 0-55 144 0 0 55Z" fill="var(--top)"/>
+    <path d="M-144 0 0 55V69L-144 14Z" fill="var(--left)"/>
+    <path d="M0 55 144 0V14L0 69Z" fill="var(--right)"/>
+    <path d="M-144 0 0-55 144 0 0 55Z" class="fine"/>
+    </g>
+<g transform="translate(1050 505)">
+    <path d="M-144 0 0-55 144 0 0 55Z" fill="var(--top)"/>
+    <path d="M-144 0 0 55V69L-144 14Z" fill="var(--left)"/>
+    <path d="M0 55 144 0V14L0 69Z" fill="var(--right)"/>
+    <path d="M-144 0 0-55 144 0 0 55Z" class="fine"/>
+    </g>
+<path d="M369 475H489m-7-6 7 6-7 6M779 475H899m-7-6 7 6-7 6" class="route"/>
+<text x="428" y="510" class="small" text-anchor="middle">Ciphertext</text>
+<text x="838" y="510" class="small" text-anchor="middle">On Reveal</text>
+<rect x="110" y="360" width="240" height="148" rx="4" fill="#0b1a38" stroke="var(--line)" stroke-width="2"/>
+        <path d="M110 397H350" stroke="#53627d"/>
+        <circle cx="128" cy="378" r="3" fill="#a8b0c3"/><circle cx="140" cy="378" r="3" fill="#a8b0c3"/>
+        <text x="157" y="385" class="mono on-water" text-anchor="start">$ drop send</text>
+<path d="M550 409 640 365 730 409V483L640 527 550 483Z" fill="var(--left)" stroke="var(--line)" stroke-width="1.5"/>
+        <path d="M550 409 640 453 730 409 640 365Z" fill="var(--top)"/>
+        <path d="M640 453 730 409V483L640 527Z" fill="var(--right)"/>
+        <path d="M570 410 640 444 710 410" class="fine"/>
+        <path d="m660 477 45-22m-45 34 45-22" class="fine"/>
+<rect x="932" y="373" width="236" height="160" rx="4" fill="var(--paper)" stroke="var(--lapis)" stroke-width="2"/>
+        <path d="M932 402H1168" class="fine"/><circle cx="948" cy="388" r="3" fill="var(--line)"/>
+        <text x="961" y="394" class="small mono" text-anchor="start">drop.example.com</text>
+<g class="plain"><rect x="182" y="414" width="96" height="70" rx="3" fill="#edebe4"/>
+        <path d="M198 433h64M198 446h44M198 459h54" stroke="#424b63" stroke-width="3"/></g>
+<g class="sealed"><g transform="translate(230 450)">
+    <rect x="-59" y="-36" width="118" height="76" rx="4" fill="#13286e" stroke="#9fb7ff" stroke-width="2"/>
+    <path d="m-57-32 57 38 57-38M-57 36l37-27m77 27L20 9" fill="none" stroke="#9fb7ff" stroke-width="2"/>
+    <rect x="-17" y="-9" width="34" height="24" rx="2" fill="#edebe4"/>
+    <path d="M-10-2h7m5 0h8M-10 4h4m4 0h12M-10 10h9m4 0h7" stroke="#13286e" stroke-width="3"/>
+    </g></g>
+<g class="delivered"><g transform="translate(640 432)">
+    <rect x="-59" y="-36" width="118" height="76" rx="4" fill="#13286e" stroke="#9fb7ff" stroke-width="2"/>
+    <path d="m-57-32 57 38 57-38M-57 36l37-27m77 27L20 9" fill="none" stroke="#9fb7ff" stroke-width="2"/>
+    <rect x="-17" y="-9" width="34" height="24" rx="2" fill="#edebe4"/>
+    <path d="M-10-2h7m5 0h8M-10 4h4m4 0h12M-10 10h9m4 0h7" stroke="#13286e" stroke-width="3"/>
+    </g></g>
+<g class="reveal-button"><g class="press"><rect x="980" y="441" width="140" height="48" rx="6" fill="var(--lapis)"/><text x="1050" y="472" text-anchor="middle" style="fill:#f6f5f0;font-weight:600">Reveal</text></g></g>
+<g class="cursor"><path d="m1093 474 0 28 8-8 7 13 7-4-8-13 12-1Z" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/></g>
+<g class="burn"><path d="M640 470C612 470 597 451 602 428 606 410 620 402 622 384 633 395 637 408 634 419 643 410 647 397 645 382 664 399 681 420 677 445 674 461 660 470 640 470Z" fill="var(--flame)"/>
+        <path d="M640 466C627 466 619 456 622 444 625 434 633 429 634 418 645 428 653 440 651 452 649 461 646 466 640 466Z" fill="var(--core)"/>
+        <path d="m589 415-7-12 10 3Zm92-16 4-12 7 9Zm-49-20-5-9 11 1Z" fill="var(--flame)" opacity=".7"/></g>
+<g class="revealed"><path d="M991 424h101l18 18v70H991Z" fill="var(--bg)" stroke="var(--line)"/>
+        <path d="M1092 424v18h18" class="fine"/>
+        <path d="M1008 449h60M1008 460h75M1008 471h42" stroke="var(--muted)" stroke-width="3"/>
+        <path d="m1071 487 9 9 18-20" fill="none" stroke="var(--teal)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="key-tag"><g transform="translate(935 283)">
+        <path d="M-68-23H50L68 0 50 23H-68Z" fill="var(--paper)" stroke="var(--gold)" stroke-width="2.5"/>
+        <circle cx="52" cy="0" r="4" fill="none" stroke="var(--gold)" stroke-width="2"/>
+        <text x="-49" y="8" class="mono gold" text-anchor="start">#key</text></g></g>
+<text x="230" y="606" class="label" text-anchor="middle">Sender&#x27;s CLI</text>
+<text x="640" y="606" class="label" text-anchor="middle">Drop server</text>
+<text x="1050" y="606" class="label" text-anchor="middle">Recipient&#x27;s browser</text>
+<text x="230" y="636" class="small" text-anchor="middle">Encrypts locally</text>
+<text x="1050" y="636" class="small" text-anchor="middle">Decrypts locally</text>
+<g class="await-status"><text x="640" y="636" class="small" text-anchor="middle">Ciphertext only</text></g>
+<g class="deleted-status"><text x="640" y="636" class="small" text-anchor="middle">Ciphertext deleted</text></g>
+<path d="M64 662H1216" class="fine"/>
+<text x="64" y="696" class="small gold" text-anchor="start">The server never sees the key.</text>
+<text x="1216" y="696" class="small" text-anchor="end">Default: 1 open / 24 hours</text>
+</svg>

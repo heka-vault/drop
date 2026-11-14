@@ -16,6 +16,6 @@
   },
   "fmt": {
     "lineWidth": 100,
-    "exclude": ["test/vectors.json"]
+    "exclude": ["test/vectors.json", "docs/media/*.svg"]
   }
 }
