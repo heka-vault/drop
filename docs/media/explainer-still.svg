@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title description">
     <title id="title">Heka Drop: a secret, one link, one open</title>
     <desc id="description">The CLI encrypts locally and uploads only ciphertext. A link carries its key in the #fragment, which browsers never send to a server. The recipient clicks Reveal and decrypts in their browser. The server deletes its ciphertext after the last allowed open or expiry. Defaults: 1 open and 24 hours. The server supplies the browser's JavaScript.</desc>
-    <style>:root{--bg:#edebe4;--paper:#f6f5f0;--ink:#101a33;--muted:#424b63;--line:#a5aabc;--lapis:#13286e;--ochre:#6a4300;--gold:#a66a00;--teal:#075b52;--top:#e0e2e7;--left:#c8cdd8;--right:#b4bdcd;}
+    <style>:root{--bg:#edebe4;--paper:#f6f5f0;--ink:#101a33;--muted:#424b63;--line:#a5aabc;--lapis:#13286e;--ochre:#6a4300;--gold:#a66a00;--teal:#075b52;--flame:#c77a12;--core:#f5c96a;--top:#e0e2e7;--left:#c8cdd8;--right:#b4bdcd;}
 text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
     .heading{font-size:44px;font-weight:700;letter-spacing:-1.2px}
     .sub{font-size:23px;fill:var(--muted)} .small{font-size:18px;fill:var(--muted)}
@@ -10,7 +10,7 @@ text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
     .fine{fill:none;stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}
     .route{fill:none;stroke:var(--lapis);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
     .key-route{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
-    .stage,.link,.routes,.key-tag,.plain,.sealed,.delivered,.burn,.revealed,.deleted-status,.await-status,.static-title{opacity:0}
+    .stage,.link,.routes,.key-tag,.plain,.sealed,.delivered,.burn,.revealed,.deleted-status,.await-status,.static-title,.never-sent{opacity:0}
     .stage,.key-tag,.sealed,.delivered,.burn,.cursor,.reveal-button{transform-box:view-box}
     .beat-0 {animation:beat-0 24s linear infinite;}
 @keyframes beat-0 {0.00000% {opacity:1} 15.66667% {opacity:1} 16.66667% {opacity:0} 99.00000% {opacity:0} 100.00000% {opacity:1}}
@@ -28,6 +28,8 @@ text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
 @keyframes link {0.00000% {opacity:0} 23.33333% {opacity:0} 24.33333% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
 .routes {animation:routes 24s linear infinite;}
 @keyframes routes {0.00000% {opacity:0} 33.75000% {opacity:0} 34.75000% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
+.never-sent {animation:never-sent 24s linear infinite;}
+@keyframes never-sent {0.00000% {opacity:0} 40.00000% {opacity:0} 41.00000% {opacity:1} 97.33333% {opacity:1} 98.33333% {opacity:0} 100.00000% {opacity:0}}
 .plain {animation:plain 24s linear infinite;}
 @keyframes plain {0.00000% {opacity:1} 8.58333% {opacity:1} 9.58333% {opacity:0} 99.00000% {opacity:0} 100.00000% {opacity:1}}
 .await-status {animation:await-status 24s linear infinite;}
@@ -53,10 +55,10 @@ text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
 .press {animation:press 24s cubic-bezier(0.23,1,0.32,1) infinite;}
 @keyframes press {0.00000% {transform:translate(0,0)} 66.00000% {transform:translate(0,0)} 66.33333% {transform:translate(0,3px)} 66.66667% {transform:translate(0,0)} 100.00000% {transform:translate(0,0)}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important} .stage,.plain,.sealed,.delivered,.burn,.reveal-button,.cursor,.request,.await-status{opacity:0}
-    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status{opacity:1}
+    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status,.never-sent{opacity:1}
     .key-tag{transform:translate(170px,72px)}}
 *{animation:none!important} .stage,.plain,.sealed,.delivered,.burn,.reveal-button,.cursor,.request,.await-status{opacity:0}
-    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status{opacity:1}
+    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status,.never-sent{opacity:1}
     .key-tag{transform:translate(170px,72px)}</style>
     <rect width="1280" height="720" fill="var(--bg)"/>
     
@@ -74,6 +76,7 @@ text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
         <path d="M850 258V304" class="fine"/><text x="280" y="290" class="mono" text-anchor="start">https://drop.example.com/d/id</text><text x="871" y="290" class="mono gold" text-anchor="start">#fragment</text></g>
 <g class="routes"><path d="M640 316V368m-6-7 6 7 6-7" class="route"/>
         <path d="M1008 316H1105V373m-6-7 6 7 6-7" class="key-route"/><text x="623" y="346" class="small" text-anchor="end">Request</text></g>
+<g class="never-sent"><text x="937" y="342" class="small gold" text-anchor="middle">never sent</text></g>
 <g class="request"><rect x="616" y="314" width="48" height="23" rx="3" fill="var(--paper)" stroke="var(--lapis)"/><text x="640" y="331" class="small mono" text-anchor="middle">/d/id</text></g>
 <g transform="translate(230 505)">
     <path d="M-144 0 0-55 144 0 0 55Z" fill="var(--top)"/>
@@ -124,8 +127,9 @@ text{font-family:Arial,Helvetica,sans-serif;fill:var(--ink);font-size:22px}
     </g></g>
 <g class="reveal-button"><g class="press"><rect x="980" y="441" width="140" height="48" rx="6" fill="var(--lapis)"/><text x="1050" y="472" text-anchor="middle" style="fill:#f6f5f0;font-weight:600">Reveal</text></g></g>
 <g class="cursor"><path d="m1093 474 0 28 8-8 7 13 7-4-8-13 12-1Z" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/></g>
-<g class="burn"><path d="M603 451c-20-20 14-30 5-54 18 9 16 25 17 30 9-16 7-28 7-38 27 24 21 38 28 45 7-7 12-14 11-23 24 24 14 45-9 48Z" fill="var(--ink)"/>
-        <path d="m589 415-7-12 10 3Zm92-16 4-12 7 9Zm-49-20-5-9 11 1Z" fill="var(--muted)"/></g>
+<g class="burn"><path d="M640 470C612 470 597 451 602 428 606 410 620 402 622 384 633 395 637 408 634 419 643 410 647 397 645 382 664 399 681 420 677 445 674 461 660 470 640 470Z" fill="var(--flame)"/>
+        <path d="M640 466C627 466 619 456 622 444 625 434 633 429 634 418 645 428 653 440 651 452 649 461 646 466 640 466Z" fill="var(--core)"/>
+        <path d="m589 415-7-12 10 3Zm92-16 4-12 7 9Zm-49-20-5-9 11 1Z" fill="var(--flame)" opacity=".7"/></g>
 <g class="revealed"><path d="M991 424h101l18 18v70H991Z" fill="var(--bg)" stroke="var(--line)"/>
         <path d="M1092 424v18h18" class="fine"/>
         <path d="M1008 449h60M1008 460h75M1008 471h42" stroke="var(--muted)" stroke-width="3"/>

@@ -15,10 +15,10 @@ BEATS = [
 PALETTES = {
     "light": dict(bg="#edebe4", paper="#f6f5f0", ink="#101a33", muted="#424b63",
                   line="#a5aabc", lapis="#13286e", ochre="#6a4300", gold="#a66a00",
-                  teal="#075b52", top="#e0e2e7", left="#c8cdd8", right="#b4bdcd"),
+                  teal="#075b52", flame="#c77a12", core="#f5c96a", top="#e0e2e7", left="#c8cdd8", right="#b4bdcd"),
     "dark": dict(bg="#08111f", paper="#0e1a30", ink="#ecebe4", muted="#a8b0c3",
                  line="#53627d", lapis="#9fb7ff", ochre="#f0b955", gold="#e8a83a",
-                 teal="#5fd3c2", top="#243858", left="#182b48", right="#12213a"),
+                 teal="#5fd3c2", flame="#e8a83a", core="#ffe3a3", top="#243858", left="#182b48", right="#12213a"),
 }
 
 
@@ -74,13 +74,14 @@ def build(theme, still=False):
     .fine{fill:none;stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}
     .route{fill:none;stroke:var(--lapis);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
     .key-route{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
-    .stage,.link,.routes,.key-tag,.plain,.sealed,.delivered,.burn,.revealed,.deleted-status,.await-status,.static-title{opacity:0}
+    .stage,.link,.routes,.key-tag,.plain,.sealed,.delivered,.burn,.revealed,.deleted-status,.await-status,.static-title,.never-sent{opacity:0}
     .stage,.key-tag,.sealed,.delivered,.burn,.cursor,.reveal-button{transform-box:view-box}
     '''
     for i in range(6):
         css += visible(f"beat-{i}", i * 4, (i + 1) * 4 if i < 5 else 23.6)
     css += visible("link", 5.6)
     css += visible("routes", 8.1)
+    css += visible("never-sent", 9.6)
     css += visible("plain", 0, 2.3)
     css += visible("await-status", 5.5, 16.4)
     css += visible("deleted-status", 17.5)
@@ -118,7 +119,7 @@ def build(theme, still=False):
         (15.92,"transform:translate(0,3px)"), (16,"transform:translate(0,0)"),
         (24,"transform:translate(0,0)")], "cubic-bezier(0.23,1,0.32,1)")
     static = '''*{animation:none!important} .stage,.plain,.sealed,.delivered,.burn,.reveal-button,.cursor,.request,.await-status{opacity:0}
-    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status{opacity:1}
+    .static-title,.link,.routes,.key-tag,.revealed,.deleted-status,.never-sent{opacity:1}
     .key-tag{transform:translate(170px,72px)}'''
     css += '@media (prefers-reduced-motion: reduce){' + static + '}\n'
     if still:
@@ -142,6 +143,7 @@ def build(theme, still=False):
     parts.append(group("routes", '''<path d="M640 316V368m-6-7 6 7 6-7" class="route"/>
         <path d="M1008 316H1105V373m-6-7 6 7 6-7" class="key-route"/>''' +
         text(623,346,"Request", "small", "end")))
+    parts.append(group("never-sent", text(937, 342, "never sent", "small gold", "middle")))
     parts.append(group("request", '''<rect x="616" y="314" width="48" height="23" rx="3" fill="var(--paper)" stroke="var(--lapis)"/>''' + text(640,331,"/d/id","small mono","middle")))
     parts += [plinth(230), plinth(640), plinth(1050)]
     # Routes are under the objects; there is never a key route into the server.
@@ -166,8 +168,10 @@ def build(theme, still=False):
     parts.append(group("reveal-button", group("press", '''<rect x="980" y="441" width="140" height="48" rx="6" fill="var(--lapis)"/>''' +
         f'<text x="1050" y="472" text-anchor="middle" style="fill:{"#f6f5f0" if theme == "light" else "#08111f"};font-weight:600">Reveal</text>')))
     parts.append(group("cursor", '<path d="m1093 474 0 28 8-8 7 13 7-4-8-13 12-1Z" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>'))
-    parts.append(group("burn", '''<path d="M603 451c-20-20 14-30 5-54 18 9 16 25 17 30 9-16 7-28 7-38 27 24 21 38 28 45 7-7 12-14 11-23 24 24 14 45-9 48Z" fill="var(--ink)"/>
-        <path d="m589 415-7-12 10 3Zm92-16 4-12 7 9Zm-49-20-5-9 11 1Z" fill="var(--muted)"/>'''))
+    # Two-tone flame in theme colours, so it reads as fire on light and dark backgrounds alike.
+    parts.append(group("burn", '''<path d="M640 470C612 470 597 451 602 428 606 410 620 402 622 384 633 395 637 408 634 419 643 410 647 397 645 382 664 399 681 420 677 445 674 461 660 470 640 470Z" fill="var(--flame)"/>
+        <path d="M640 466C627 466 619 456 622 444 625 434 633 429 634 418 645 428 653 440 651 452 649 461 646 466 640 466Z" fill="var(--core)"/>
+        <path d="m589 415-7-12 10 3Zm92-16 4-12 7 9Zm-49-20-5-9 11 1Z" fill="var(--flame)" opacity=".7"/>'''))
     parts.append(group("revealed", '''<path d="M991 424h101l18 18v70H991Z" fill="var(--bg)" stroke="var(--line)"/>
         <path d="M1092 424v18h18" class="fine"/>
         <path d="M1008 449h60M1008 460h75M1008 471h42" stroke="var(--muted)" stroke-width="3"/>
