@@ -26,6 +26,8 @@ secret is gone from the server.
 - **A `drop` CLI does the sending.** It reads the value from Heka Vault with the host's own project
   key (or from stdin or a file), encrypts locally, uploads, and prints only the URL. The value stays
   out of the agent's context, and the Drop server holds no vault credentials.
+- **Any API token can drop any value it is handed.** Drop does not check which vault project a
+  value came from; what a host may read is the vault's concern.
 - **Payloads:** text, JSON, and files up to about 1 MB.
 
 ## First version also includes
@@ -79,10 +81,6 @@ do that, and it is the one place where an outsider writes into the system, so it
 One container behind a Cloudflare tunnel, with Cloudflare Access on the redeem pages. The API that
 creates drops is not exposed through the tunnel. Because the server holds only ciphertext, it can
 live on a less trusted machine than the vault.
-
-## Open
-
-- Whether an API token is limited to drops for its own vault project.
 
 ## License
 
