@@ -13,13 +13,14 @@ secret is gone from the server.
   which browsers never send, so the server stores only ciphertext.
 - **One open and 24 hours by default.** A sender can raise either per drop, up to 10 opens and 7
   days. Ciphertext is deleted on the last open or at expiry.
-- **Recipients sign in with GitHub or Google before a drop reveals.** By default anyone holding the
-  link may sign in and open it; no account has to exist before the link is sent. Who opened it is
-  recorded.
-- **Stricter mode, per deployment or per drop:** address a drop to a specific person, and only that
-  identity can open it.
-- **Sign-in is Cloudflare Access** in front of the redeem page. The app trusts the verified identity
-  Access passes on and has no OAuth code of its own.
+- **Two kinds of link, chosen per drop.** A plain drop opens for anyone holding the link, with no
+  sign-in. A drop marked *sign-in required* makes the recipient sign in with GitHub or Google first;
+  if they have no account yet, that sign-in creates one. Nobody has to sign up before a link can be
+  sent to them.
+- **Sign-in is Cloudflare Access,** applied only to the sign-in-required paths. The app trusts the
+  verified identity Access passes on and has no OAuth code of its own.
+- **Addressed drops:** a sign-in-required drop can also name one person, and then only that person
+  can open it.
 - **Reveal is an explicit click,** so chat link previews cannot use up a drop.
 - **Creating drops needs an API token;** only the redeem page faces the internet.
 - **A `drop` CLI does the sending.** It reads the value from Heka Vault with the host's own project
@@ -33,7 +34,19 @@ secret is gone from the server.
 - Listing pending drops and revoking one before it is opened.
 - Agents can post the link to Discord for the recipient themselves, as well as hand it back to the
   operator.
-- A stored people list (name, GitHub login or email) so a drop can be addressed by name.
+
+## People
+
+Signing in creates a person: the verified GitHub or Google identity, plus metadata such as a
+display name and a Discord user id. People exist so that:
+
+- a drop or a reverse-drop request can be addressed to someone by name,
+- agents can ping that person in Discord when something is waiting for them,
+- the audit log names who opened or submitted what.
+
+A person can also be created ahead of time from the Discord side (name and Discord user id only).
+The first sign-in through a link addressed to them attaches the GitHub or Google identity to that
+record, and that first attachment is announced in Discord so a wrong account is noticed.
 
 ## Reverse drops
 
@@ -61,6 +74,7 @@ live on a less trusted machine than the vault.
 
 ## Open
 
+- How a Discord user id is confirmed to belong to the person who signed in.
 - Whether an API token is limited to drops for its own vault project.
 
 ## License
