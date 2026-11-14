@@ -1,0 +1,6 @@
+data/
+deploy/data/
+*.db
+*.db-*
+*.key
+*.env
