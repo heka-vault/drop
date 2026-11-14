@@ -1,5 +1,14 @@
 # Heka Drop
 
+<picture>
+  <source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="docs/media/explainer-still-dark.svg">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/media/explainer-still.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/explainer-dark.svg">
+  <img src="docs/media/explainer-light.svg" width="1280" height="720" alt="Heka Drop: the CLI encrypts locally and uploads only ciphertext. The link's #fragment carries the key to the recipient's browser, never to the server. Click Reveal to decrypt locally. The server deletes ciphertext after the last allowed open or expiry; defaults are one open and 24 hours.">
+</picture>
+
+[Still version](docs/media/explainer-still.svg) / [Video](docs/media/explainer.mp4)
+
 Hand a secret to a person with a link. An agent takes a value (usually from
 [Heka Vault](https://github.com/heka-vault/vault)), encrypts it, and gets back a URL that works a
 limited number of times. You paste the URL to a collaborator; they sign in, click Reveal, and the
